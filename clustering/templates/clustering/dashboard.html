@@ -1,0 +1,20 @@
+{% extends "clustering/base.html" %}
+{% block content %}
+<h1 class="h3">County-Level Sanitation Access Clustering</h1>
+<p class="text-muted">Unsupervised grouping of Kenya's 47 counties by sanitation and related socioeconomic indicators (SDG 6).</p>
+<div class="row g-3 mb-4">
+  <div class="col-md-4"><div class="card text-center"><div class="card-body"><div class="display-6">{{ county_count }}</div>Counties loaded</div></div></div>
+  <div class="col-md-4"><div class="card text-center"><div class="card-body"><div class="display-6">{{ with_data }}</div>With indicator data</div></div></div>
+  <div class="col-md-4"><div class="card text-center"><div class="card-body"><div class="display-6">{{ runs|length }}</div>Recent runs</div></div></div>
+</div>
+<div class="card mb-4"><div class="card-header">Run clustering</div><div class="card-body">
+{% if user.is_authenticated %}
+<form method="post" action="{% url 'run' %}" class="row g-3">{% csrf_token %}
+  <div class="col-md-4"><label class="form-label">Algorithm</label>{{ run_form.algorithm }}</div>
+  <div class="col-md-4"><label class="form-label">Clusters (k)</label>{{ run_form.k }}<div class="form-text">{{ run_form.k.help_text }}</div></div>
+  <div class="col-md-4 d-flex align-items-end"><button class="btn btn-success">Run</button></div>
+</form>
+{% else %}<p class="mb-0">Please <a href="/admin/login/?next=/">sign in</a> to upload data or run clustering.</p>{% endif %}
+</div></div>
+{% if latest %}<a class="btn btn-outline-success" href="{% url 'run_detail' latest.pk %}">View latest result: {{ latest }}</a>{% endif %}
+{% endblock %}

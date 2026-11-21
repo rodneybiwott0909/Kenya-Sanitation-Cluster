@@ -1,0 +1,27 @@
+{% extends "clustering/base.html" %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-start">
+<div><h1 class="h4">{{ run }}</h1>
+<p class="text-muted">Silhouette {{ run.silhouette|floatformat:3 }} · Davies-Bouldin {{ run.davies_bouldin|floatformat:3 }} ·
+suggested k by silhouette: {{ run.k_diagnostics.suggested_k }} · imputed cells: {{ run.k_diagnostics.imputed_cells }}</p></div>
+<a class="btn btn-outline-secondary" href="{% url 'export_run' run.pk %}">Export CSV</a></div>
+<div class="row g-3">
+{% if map_json %}<div class="col-12"><div class="card"><div class="card-body"><div id="map" style="height:520px"></div></div></div></div>{% endif %}
+<div class="col-lg-6"><div class="card"><div class="card-body"><div id="pca" style="height:420px"></div></div></div></div>
+<div class="col-lg-6"><div class="card"><div class="card-body"><div id="kdiag" style="height:420px"></div></div></div></div>
+<div class="col-12"><div class="card"><div class="card-body"><div id="heat" style="height:{{ run.n_clusters|add:2 }}0px;min-height:300px"></div></div></div></div>
+</div>
+<h2 class="h5 mt-4">Cluster profiles</h2>
+<div class="row g-3">{% for p in run.profiles %}
+<div class="col-md-6"><div class="card h-100"><div class="card-header"><strong>{{ p.label }}</strong> · {{ p.n }} counties</div>
+<div class="card-body"><ul class="small">{% for f, v in p.means.items %}<li>{{ f }}: {{ v }}</li>{% endfor %}</ul>
+<p class="small mb-0">{{ p.counties|join:", " }}</p></div></div></div>{% endfor %}</div>
+{% if not map_json %}<p class="text-muted mt-3 small">Add <code>data/kenya_counties.geojson</code> to enable the county choropleth map.</p>{% endif %}
+{{ pca_json|json_script:"pca-data" }}{{ k_json|json_script:"k-data" }}{{ heat_json|json_script:"heat-data" }}
+{% if map_json %}{{ map_json|json_script:"map-data" }}{% endif %}
+<script>
+function draw(el, id){ const f = JSON.parse(JSON.parse(document.getElementById(id).textContent));
+  Plotly.newPlot(el, f.data, f.layout, {responsive:true}); }
+draw("pca","pca-data"); draw("kdiag","k-data"); draw("heat","heat-data");
+{% if map_json %}draw("map","map-data");{% endif %}
+</script>{% endblock %}

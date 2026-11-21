@@ -1,0 +1,8 @@
+{% extends "clustering/base.html" %}
+{% block content %}
+<h1 class="h4">Upload county indicators</h1>
+<p>CSV columns: <code>code,name,region,is_asal,improved_sanitation_pct,open_defecation_pct,improved_water_pct,handwashing_pct,poverty_rate_pct,urban_pop_pct,source</code>. Indicator values must be 0-100; blanks are median-imputed at clustering time. The import is all-or-nothing.</p>
+{% if errors %}<div class="alert alert-danger"><strong>Import rejected:</strong><ul class="mb-0">{% for e in errors %}<li>{{ e }}</li>{% endfor %}</ul></div>{% endif %}
+<form method="post" enctype="multipart/form-data" class="card card-body">{% csrf_token %}
+{{ form.as_p }}<button class="btn btn-success align-self-start">Upload</button></form>
+{% endblock %}

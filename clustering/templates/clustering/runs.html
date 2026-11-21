@@ -1,0 +1,7 @@
+{% extends "clustering/base.html" %}
+{% block content %}
+<h1 class="h4">Clustering runs</h1>
+<table class="table bg-white"><thead><tr><th>Run</th><th>Silhouette</th><th>Davies-Bouldin</th><th></th></tr></thead><tbody>
+{% for r in runs %}<tr><td>{{ r }}</td><td>{{ r.silhouette|floatformat:3 }}</td><td>{{ r.davies_bouldin|floatformat:3 }}</td>
+<td><a href="{% url 'run_detail' r.pk %}">Open</a> · <a href="{% url 'export_run' r.pk %}">CSV</a></td></tr>
+{% empty %}<tr><td colspan="4">No runs yet.</td></tr>{% endfor %}</tbody></table>{% endblock %}

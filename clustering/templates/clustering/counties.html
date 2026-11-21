@@ -1,0 +1,11 @@
+{% extends "clustering/base.html" %}
+{% block content %}
+<h1 class="h4">Counties</h1>
+<div class="table-responsive"><table class="table table-sm table-striped bg-white">
+<thead><tr><th>#</th><th>County</th><th>Region</th><th>ASAL</th>{% for f,l,h in indicators %}<th>{{ l }}</th>{% endfor %}</tr></thead>
+<tbody>{% for c in counties %}<tr><td>{{ c.code }}</td><td>{{ c.name }}</td><td>{{ c.region }}</td><td>{{ c.is_asal|yesno:"Yes,–" }}</td>
+<td>{{ c.improved_sanitation_pct|default_if_none:"–" }}</td><td>{{ c.open_defecation_pct|default_if_none:"–" }}</td>
+<td>{{ c.improved_water_pct|default_if_none:"–" }}</td><td>{{ c.handwashing_pct|default_if_none:"–" }}</td>
+<td>{{ c.poverty_rate_pct|default_if_none:"–" }}</td><td>{{ c.urban_pop_pct|default_if_none:"–" }}</td></tr>
+{% empty %}<tr><td colspan="10">No data. Run <code>python manage.py load_counties</code> or upload a CSV.</td></tr>{% endfor %}</tbody>
+</table></div>{% endblock %}
