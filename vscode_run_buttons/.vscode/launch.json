@@ -1,0 +1,89 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "1. Set up database",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/manage.py",
+      "args": [
+        "migrate"
+      ],
+      "django": true,
+      "console": "integratedTerminal",
+      "env": {
+        "DJANGO_DEBUG": "1"
+      }
+    },
+    {
+      "name": "2. Create admin login",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/manage.py",
+      "args": [
+        "createsuperuser"
+      ],
+      "django": true,
+      "console": "integratedTerminal",
+      "env": {
+        "DJANGO_DEBUG": "1"
+      }
+    },
+    {
+      "name": "3. Load the 47 counties",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/manage.py",
+      "args": [
+        "load_counties"
+      ],
+      "django": true,
+      "console": "integratedTerminal",
+      "env": {
+        "DJANGO_DEBUG": "1"
+      }
+    },
+    {
+      "name": "4. Run the app",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/manage.py",
+      "args": [
+        "runserver"
+      ],
+      "django": true,
+      "console": "integratedTerminal",
+      "env": {
+        "DJANGO_DEBUG": "1"
+      }
+    },
+    {
+      "name": "Optional: load demo data (fake values)",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/manage.py",
+      "args": [
+        "seed_demo"
+      ],
+      "django": true,
+      "console": "integratedTerminal",
+      "env": {
+        "DJANGO_DEBUG": "1"
+      }
+    },
+    {
+      "name": "Optional: run the tests",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/manage.py",
+      "args": [
+        "test"
+      ],
+      "django": true,
+      "console": "integratedTerminal",
+      "env": {
+        "DJANGO_DEBUG": "1"
+      }
+    }
+  ]
+}
